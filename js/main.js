@@ -1,14 +1,14 @@
 let id = 1;
 let commentId = 1;
 
-const descriptions = [
+const DESCRIPTION = [
   'Первое',
   'Второе',
   'Третье',
   'Последнее'
 ];
 
-const messages = [
+const MESSAGES = [
   'Всё отлично!',
   'В целом всё неплохо. Но не всё.',
   'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.',
@@ -17,37 +17,37 @@ const messages = [
   'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'
 ];
 
-const names = [
+const NAMES = [
   'Атос',
   'Портос',
   'Арамис',
   'Милледи'
 ];
 
-function getRandomInteger(min, max) {
+const getRandomInteger = (min, max) => {
   const lower = Math.ceil(Math.min(Math.abs(min), Math.abs(max)));
   const upper = Math.floor(Math.max(Math.abs(min), Math.abs(max)));
   const result = Math.random() * (upper - lower + 1) + lower;
   return Math.floor(result);
-}
+};
 
 const getRandomComment = () => {
   const result = {
     id: commentId,
     avatar: `img/avatar-${commentId}.svg`,
-    message: messages[getRandomInteger(0, messages.length - 1)],
-    name: names[getRandomInteger(0, names.length - 1)]
+    message: MESSAGES[getRandomInteger(0, MESSAGES.length - 1)],
+    name: NAMES[getRandomInteger(0, NAMES.length - 1)]
   };
   commentId += 1;
   return result;
 };
 
 
-const array = () => {
+const getArray = () => {
   const result = {
     id: id,
     url: `photos/${id}.jpg`,
-    description: descriptions[getRandomInteger(0, descriptions.length - 1)],
+    description: DESCRIPTION[getRandomInteger(0, DESCRIPTION.length - 1)],
     likes: getRandomInteger(15, 200),
     comments: Array.from({length: getRandomInteger(1, 3)}, getRandomComment)
   };
@@ -55,6 +55,4 @@ const array = () => {
   return result;
 };
 
-const getObjects = Array.from({length: 3}, array);
-
-console.log(getObjects);
+const getObjects = Array.from({length: 3}, getArray);
