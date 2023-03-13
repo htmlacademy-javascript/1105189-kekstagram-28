@@ -1,1 +1,1 @@
-import {getObjects} from './get-objects';
+import {container} from './other-users-pictures.js';

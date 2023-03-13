@@ -1,5 +1,5 @@
-import {getRandomInteger} from './utils';
-import {DESCRIPTION, MESSAGES, NAMES} from './data';
+import {getRandomInteger} from './utils.js';
+import {DESCRIPTION, MESSAGES, NAMES} from './data.js';
 
 let id = 1;
 let commentId = 1;
