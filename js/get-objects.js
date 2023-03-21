@@ -28,6 +28,6 @@ const getArray = () => {
   return result;
 };
 
-const getObjects = Array.from({length: 5}, getArray);
+const getObjects = Array.from({length: 3}, getArray);
 
 export {getObjects};
