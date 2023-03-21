@@ -4,14 +4,14 @@ const bigPicture = document.querySelector('.big-picture');
 const bigPictureImg = bigPicture.querySelector('.big-picture__img img');
 const bigPictureLikes = bigPicture.querySelector('.likes-count');
 const bigPictureCommentsCount = bigPicture.querySelector('.comments-count');
+const bigPictureOpenCommentsCount = bigPicture.querySelector('.open-comments-count');
 const bigPictureComments = bigPicture.querySelector('.social__comments');
 const bigPictureCommentsTemplate = bigPicture.querySelector('.social__comment');
 const bigPictureDescription = bigPicture.querySelector('.social__caption');
 const documentBody = document.querySelector('body');
 const smallPictures = document.querySelectorAll('.picture');
-const socialCommentCount = document.querySelector('.social__comment-count');
-const commentsLoader = document.querySelector('.comments-loader');
 const bigPictureCancel = document.querySelector('.big-picture__cancel.cancel');
+const moreCommentsButton = bigPicture.querySelector('.social__comments-loader.comments-loader');
 
 for (let i = 0; i < smallPictures.length; i++) {
   smallPictures[i].addEventListener('click', () => {
@@ -20,32 +20,47 @@ for (let i = 0; i < smallPictures.length; i++) {
     bigPictureLikes.textContent = getObjects[i].likes;
     bigPictureCommentsCount.textContent = getObjects[i].comments.length;
     bigPictureComments.innerHTML = '';
-    getObjects[i].comments.forEach((item) => {
-      const comment = bigPictureCommentsTemplate.cloneNode(true);
-      comment.querySelector('img').src = item.avatar;
-      comment.querySelector('img').alt = item.name;
-      comment.querySelector('.social__text').textContent = item.message;
-      bigPictureComments.appendChild(comment);
-    });
-    bigPictureDescription.textContent = getObjects[i].description;
 
-    socialCommentCount.classList.add('hidden');
-    commentsLoader.classList.add('hidden');
+    const commentsPerClick = 5;
+    let CommentsIterationCount = 0;
+
+    for (let x = 0; x < getObjects[i].comments.length && x < commentsPerClick; x++) {
+      const comment = bigPictureCommentsTemplate.cloneNode(true);
+      comment.querySelector('img').src = getObjects[i].comments[x].avatar;
+      comment.querySelector('img').alt = getObjects[i].comments[x].name;
+      comment.querySelector('.social__text').textContent = getObjects[i].comments[x].message;
+      bigPictureComments.appendChild(comment);
+      CommentsIterationCount += 1;
+    }
+
+    bigPictureOpenCommentsCount.textContent = CommentsIterationCount;
+    bigPictureDescription.textContent = getObjects[i].description;
     documentBody.classList.add('modal-open');
 
     bigPictureCancel.addEventListener('click', () => {
       bigPicture.classList.add('hidden');
-      socialCommentCount.classList.remove('hidden');
-      commentsLoader.classList.remove('hidden');
       documentBody.classList.remove('modal-open');
     });
 
     document.addEventListener('keydown', (evt) => {
       if (evt.key === 'Escape') {
         bigPicture.classList.add('hidden');
-        socialCommentCount.classList.remove('hidden');
-        commentsLoader.classList.remove('hidden');
         documentBody.classList.remove('modal-open');
+      }
+    });
+
+    moreCommentsButton.addEventListener('click', () => {
+      for (let y = 0; y < commentsPerClick && CommentsIterationCount < getObjects[i].comments.length; y++) {
+        const comment = bigPictureCommentsTemplate.cloneNode(true);
+        comment.querySelector('img').src = getObjects[i].comments[CommentsIterationCount].avatar;
+        comment.querySelector('img').alt = getObjects[i].comments[CommentsIterationCount].name;
+        comment.querySelector('.social__text').textContent = getObjects[i].comments[CommentsIterationCount].message;
+        bigPictureComments.appendChild(comment);
+        CommentsIterationCount += 1;
+        if (CommentsIterationCount === getObjects[i].comments.length) {
+          moreCommentsButton.classList.add('hidden');
+        }
+        bigPictureOpenCommentsCount.textContent = CommentsIterationCount;
       }
     });
   });

@@ -22,7 +22,7 @@ const getArray = () => {
     url: `photos/${id}.jpg`,
     description: DESCRIPTION[getRandomInteger(0, DESCRIPTION.length - 1)],
     likes: getRandomInteger(15, 200),
-    comments: Array.from({length: getRandomInteger(1, 3)}, getRandomComment)
+    comments: Array.from({length: getRandomInteger(3, 8)}, getRandomComment)
   };
   id += 1;
   return result;

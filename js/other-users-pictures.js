@@ -14,5 +14,3 @@ getObjects.forEach(({url, comments, likes}) => {
 });
 
 container.appendChild(otherUsersPhotoFragment);
-
-export {container};
