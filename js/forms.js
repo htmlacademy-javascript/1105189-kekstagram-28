@@ -1,3 +1,6 @@
+import {sendData} from './api.js';
+import {showSuccessMessage} from './success-send-form.js';
+
 const uploadImgForm = document.forms.uploadImage;
 const imgUploadOverlay = document.querySelector('.img-upload__overlay');
 const body = document.querySelector('body');
@@ -43,9 +46,7 @@ uploadImgForm.addEventListener('input', (evt) => {
         document.activeElement === commentField)) {
         hideModal();
       }
-      ;
     }
-    ;
   });
 
   const preview = uploadImgForm.querySelector('.img-upload__preview img');
@@ -82,9 +83,11 @@ pristine.addValidator(
 const onFormSubmit = (evt) => {
   evt.preventDefault();
   if (pristine.validate()) {
-    uploadImgForm.submit();
+    sendData(new FormData(uploadImgForm));
+    hideModal();
+    imgPreview.removeAttribute('style');
+    showSuccessMessage();
   }
-  ;
 };
 
 uploadImgForm.addEventListener('submit', onFormSubmit);

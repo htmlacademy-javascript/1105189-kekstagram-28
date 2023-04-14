@@ -1,16 +1,18 @@
-import {getObjects} from './get-objects.js';
+import {getData} from './api.js';
 
 const container = document.querySelector('.pictures.container');
 const template = document.querySelector('#picture').content;
 const otherUsersPhotoFragment = document.createDocumentFragment();
 
-getObjects.forEach(({url, comments, likes}) => {
-  const picture = template.cloneNode(true);
-  picture.querySelector('.picture__img').src = url;
-  picture.querySelector('.picture__comments').textContent = comments.length;
-  picture.querySelector('.picture__likes').textContent = likes;
+const generateOtherUsersPhoto = (array) => {
+  array.forEach(({url, comments, likes}) => {
+    const picture = template.cloneNode(true);
+    picture.querySelector('.picture__img').src = url;
+    picture.querySelector('.picture__comments').textContent = comments.length;
+    picture.querySelector('.picture__likes').textContent = likes;
+    otherUsersPhotoFragment.appendChild(picture);
+    container.appendChild(otherUsersPhotoFragment);
+  });
+};
 
-  otherUsersPhotoFragment.appendChild(picture);
-});
-
-container.appendChild(otherUsersPhotoFragment);
+getData().then((data) => generateOtherUsersPhoto(data));
