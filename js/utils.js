@@ -5,4 +5,6 @@ const getRandomInteger = (min, max) => {
   return Math.floor(result);
 };
 
-export {getRandomInteger};
+const delay = (ms) => new Promise((res) => setTimeout(res, ms));
+
+export {getRandomInteger, delay};

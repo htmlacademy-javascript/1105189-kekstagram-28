@@ -1,3 +1,4 @@
+import {delay} from './utils.js';
 const BASE_URL = 'https://28.javascript.pages.academy/kekstagram/';
 const Route = {
   GET_DATA: 'data',
@@ -12,6 +13,16 @@ const ErrorText = {
   SEND_DATA: 'Не удалось отправить данные'
 };
 
+const showFetchErrorMessage = async (error) => {
+  const container = document.querySelector('body');
+  const template = document.querySelector('#fetch-error').content;
+  const message = template.cloneNode(true);
+  container.appendChild(message);
+  document.querySelector('.error__title').innerHTML = error;
+  await delay(5000);
+  container.removeChild(document.querySelector('.error'));
+};
+
 const load = (route, error, method = Method.GET, body = null) =>
   fetch(`${BASE_URL}${route}`, {method, body})
     .then((response) => {
@@ -21,7 +32,7 @@ const load = (route, error, method = Method.GET, body = null) =>
       return response.json();
     })
     .catch(() => {
-      throw new Error(ErrorText);
+      showFetchErrorMessage(error);
     });
 
 const getData = () => load(Route.GET_DATA, ErrorText.GET_DATA);
