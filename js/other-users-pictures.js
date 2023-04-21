@@ -1,5 +1,5 @@
 import {getData} from './api.js';
-import {getRandomInteger} from './utils.js';
+// import {getRandomInteger} from './utils.js';
 
 const container = document.querySelector('.pictures.container');
 const template = document.querySelector('#picture').content;
@@ -42,17 +42,22 @@ defaultFilter.addEventListener('click', () => {
 });
 
 randomFilter.addEventListener('click', () => {
-  const dataPhoto = [];
-  let index = 0;
+  let dataPhoto = [];
+  // let index = 0;
   clearTimeout(timerIndex);
 
   timerIndex = setTimeout(() => {
     getData().then((data) => {
-      for (let i = 0; i < 10; i++) {
-        index = getRandomInteger(0, data.length - 1);
-        dataPhoto.push(data[index]);
-        delete data.splice(index, 1);
-      }
+      // старая версия сортировки
+      // for (let i = 0; i < 10; i++) {
+      //   index = getRandomInteger(0, data.length - 1);
+      //   dataPhoto.push(data[index]);
+      //   delete data.splice(index, 1);
+      // }
+
+      // новая версия из ретроспективы
+      dataPhoto = [...data].sort(() => Math.random() - 0.5).slice(0, 10);
+
     }).then(() => {
       container.querySelectorAll('a.picture').forEach((el) => el.remove());
       generateOtherUsersPhoto(dataPhoto);

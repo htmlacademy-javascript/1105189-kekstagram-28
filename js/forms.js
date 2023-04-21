@@ -51,13 +51,22 @@ uploadImgForm.addEventListener('input', (evt) => {
 
   const preview = uploadImgForm.querySelector('.img-upload__preview img');
   const file = uploadImgForm.querySelector('#upload-file').files[0];
-  const reader = new FileReader();
+  const fileName = file.name.toLowerCase();
+  const FILE_TYPES = ['jpg', 'jpeg', 'png'];
 
-  reader.onloadend = () => {
-    preview.src = reader.result;
-  };
+  // Старая версия отображения загруженного фото
+  // const reader = new FileReader();
+  // reader.onloadend = () => {
+  //   preview.src = reader.result;
+  // };
+  //
+  // file ? reader.readAsDataURL(file) : preview.src = '';
 
-  file ? reader.readAsDataURL(file) : preview.src = '';
+  // Новая версия из учебного проекта
+  const matches = FILE_TYPES.some((it) => fileName.endsWith(it));
+  if (matches) {
+    preview.src = URL.createObjectURL(file);
+  }
 });
 
 const isValidTag = (tag) => VALID_SYMBOLS.test(tag);
@@ -137,12 +146,12 @@ noUiSlider.create(slider, {
 sliderContainer.classList.add('hidden');
 
 document.querySelector('.effects').addEventListener('change', (evt) => {
-  if(evt.target.classList.contains('effects__preview--none')) {
+  if (evt.target.classList.contains('effects__preview--none')) {
     sliderContainer.classList.add('hidden');
     imgPreview.removeAttribute('style');
   }
 
-  if(evt.target.classList.contains('effects__preview--chrome')) {
+  if (evt.target.classList.contains('effects__preview--chrome')) {
     slider.noUiSlider.updateOptions(
       {
         range: {
@@ -160,7 +169,7 @@ document.querySelector('.effects').addEventListener('change', (evt) => {
     sliderContainer.classList.remove('hidden');
   }
 
-  if(evt.target.classList.contains('effects__preview--sepia')) {
+  if (evt.target.classList.contains('effects__preview--sepia')) {
     slider.noUiSlider.updateOptions(
       {
         range: {
@@ -178,7 +187,7 @@ document.querySelector('.effects').addEventListener('change', (evt) => {
     sliderContainer.classList.remove('hidden');
   }
 
-  if(evt.target.classList.contains('effects__preview--marvin')) {
+  if (evt.target.classList.contains('effects__preview--marvin')) {
     slider.noUiSlider.updateOptions(
       {
         range: {
@@ -196,7 +205,7 @@ document.querySelector('.effects').addEventListener('change', (evt) => {
     sliderContainer.classList.remove('hidden');
   }
 
-  if(evt.target.classList.contains('effects__preview--phobos')) {
+  if (evt.target.classList.contains('effects__preview--phobos')) {
     slider.noUiSlider.updateOptions(
       {
         range: {
@@ -214,7 +223,7 @@ document.querySelector('.effects').addEventListener('change', (evt) => {
     sliderContainer.classList.remove('hidden');
   }
 
-  if(evt.target.classList.contains('effects__preview--heat')) {
+  if (evt.target.classList.contains('effects__preview--heat')) {
     slider.noUiSlider.updateOptions(
       {
         range: {
