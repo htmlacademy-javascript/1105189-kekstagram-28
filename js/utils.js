@@ -7,4 +7,12 @@ const getRandomInteger = (min, max) => {
 
 const delay = (ms) => new Promise((res) => setTimeout(res, ms));
 
-export {getRandomInteger, delay};
+const debounce = (callback, timeoutDelay) => {
+  let timeoutId;
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
+};
+
+export {getRandomInteger, delay, debounce};
